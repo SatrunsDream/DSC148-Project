@@ -23,21 +23,21 @@
 * What are the baseline models you want to compare with?
 * Why do you think they are appropriate?
 * Why do you think your model can outperform them? Or say, what are their drawbacks?
-### 2.5 Baseline Result
+### 2.5 Baseline result
 
 ## 3. Model
-### 3.1 Initial Setting
+### 3.1 Initial settings
 * What is the model that you propose to attack this task?
 * It’s fine to use models that were described in class here
 * Explain and justify your choice/proposal What are the features you designed for your model?
 * Any unsuccessful tries?
-### 3.2 Basic Hyper parameter tuning
-### 3.3 Feature Engineering
+### 3.2 Basic hyperparameter tuning
+### 3.3 Feature engineering
 ### 3.4 Model optimzation
 * How will you optimize your model?
 * It’s fine here to call any 3rd party libs
 * Did you encounter any troubles? Scalability? Overfitting?
-### 3.5 Final Optimization Result
+### 3.5 Final optimization result
 
 ## 4. Literature
 * Has your dataset/task been studied by others before?
@@ -57,7 +57,7 @@
 * Are all features you designed effective?
 ### 5.3 Hyperparameters
 * How shall one set the hyper-parameters of your model?
-### 5.4 Major Takeaways
+### 5.4 Major takeaways
 * What are the major takeaways (i.e., conclusions)?
 
 ## References
