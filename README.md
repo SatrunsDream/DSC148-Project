@@ -1,6 +1,6 @@
 # DSC148-Project
 
-## 0. Introduction
+## 0 Introduction
 
 ## 1 Dataset
 ### 1.1 Identify a dataset
