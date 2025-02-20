@@ -4,7 +4,7 @@
 
 ## 1 Dataset
 ### 1.1 Identify a dataset
-**[realtor-data.csv](https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset/data) (2,226,382 entries): This dataset contains Real Estate listings in the US broken by State and zip code**
+**[usa real estate data](https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset/data) (2,226,382 entries): This dataset contains Real Estate listings in the US broken by State and zip code**
 * brokered by (categorically encoded agency/broker)
 * status (Housing status - a. ready for sale or b. ready to build)
 * price (Housing price, it is either the current listing price or recently sold price if the house is sold recently)
