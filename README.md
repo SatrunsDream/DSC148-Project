@@ -21,11 +21,11 @@
 **brokered by and street addresses were categorically encoded due to data privacy policy**
 
 **acre_lot means the total land area, and house_size denotes the living space/building area**
-### 1.2 Perform an exploratory data analysis
+### 1.2 Data cleaning
+### 1.3 Perform an exploratory data analysis
 * Basic Statistics
 * Properties
 * Interesting findings
-### 1.3 Data cleaning
 ### 1.4 Findings in exploratory data analysis
 * EDA should motivate your model design/choice
 
