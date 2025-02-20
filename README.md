@@ -1,17 +1,7 @@
 # DSC148-Project
 
 ## 0 Introduction
-Home prices serve as a key indicator of the real estate market, reflecting the health of the economy as a result. ... . In this project, we will be build a predictive model to estimate the current listing price/recently sold price of a home based on various property-related features, offering valuable insights into the housing market.
-
-Understanding the factors that influence these prices can help buyers, sellers, and investors make informed decisions. By analyzing historical data and market trends, we can identify key drivers of home values and improve price predictions
-
-In this era of information explosion and online shopping bloom, people often refer to ratings when selecting products. Similarly, movie ratings are related to a movie's long-term reputation, popularity, and profit.
-
-In today's data-driven world, accurate home price predictions can assist buyers, sellers, investors, and policymakers in making informed decisions. Just as ratings help consumers assess product quality, home prices serve as a benchmark for market value and economic trends.
-
-Like product ratings guide consumers, accurate price predictions help buyers, sellers, and investors make informed decisions.
-
-Just as product ratings help consumers assess quality, home prices reflect market value and broader economic trends. Accurate predictions can guide buyers, sellers, investors, and policymakers in making informed decisions.
+Home prices serve as a benchmark for market value, reflecting the health of the economy as a result. Accurate home price predictions can help buyers, sellers, investors, and policymakers make informed decisions as market fluctuations and economic trends make it difficult to gauge a home's true value. In this project, we will be build a predictive model to estimate the current listing or recently sold price of a home using various property-related features.
 
 ## 1 Dataset
 ### 1.1 Identify a dataset
