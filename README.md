@@ -69,6 +69,8 @@ The dataset we will be using is
 * Are your conclusions similar or different from existing work?
 * What’s the major novelty of your work?
 
+Note -> Originally, we had decided to do a 'basic' predict home prices model, however, this has been done billions of times, so we decided to change our question to make it unique.
+
 ## 5. Result
 ### 5.1 Comparison
 * Does your proposed method outperform the baselines?
