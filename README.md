@@ -5,27 +5,37 @@ Home prices serve as a benchmark for market value, reflecting the health of the 
 
 ## 1 Dataset
 ### 1.1 Identify a dataset
-The dataset we will be using is 
-
-
+The dataset we will be using is
 
 **[usa real estate data](https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset/data) (2,226,382 entries): This dataset contains Real Estate listings in the US broken by State and zip code**
-* brokered by (categorically encoded agency/broker)
-* status (Housing status - a. ready for sale or b. ready to build)
-* price (Housing price, it is either the current listing price or recently sold price if the house is sold recently)
-* bed (# of beds)
-* bath (# of bathrooms)
-* acre_lot (Property / Land size in acres)
-* street (categorically encoded street address)
-* city (city name)
-* state (state name)
-* zip_code (postal code of the area)
-* house_size (house area/size/living space in square feet)
-* prev_sold_date (Previously sold date)
+* `brokered by`: (categorically encoded agency/broker)
+* `status`: (Housing status - a. ready for sale or b. ready to build)
+* `price`: (Housing price, it is either the current listing price or recently sold price if the house is sold recently)
+* `bed`: (# of beds)
+* `bath`: (# of bathrooms)
+* `acre_lot`: (Property / Land size in acres)
+* `street`: (categorically encoded street address)
+* `city`: (city name)
+* `state`: (state name)
+* `zip_code`: (postal code of the area)
+* `house_size`: (house area/size/living space in square feet)
+* `prev_sold_date`: (Previously sold date)
   
 **brokered by and street addresses were categorically encoded due to data privacy policy**
 
 **acre_lot means the total land area, and house_size denotes the living space/building area**
+
+**[ZIP Code Tabulation Areas](https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html) (33,791 entries): This dataset contains geographic identifier codes, names, area measurements, and representative latitude and longitude coordinates for zip codes based on the 2020 Census tabulation blocks**
+* `GEOID`: Five digit ZIP Code Tabulation Area Census Code
+* `ALAND`: Land Area (square meters) - Created for statistical purposes only
+* `AWATER`: Water Area (square meters) - Created for statistical purposes only
+* `ALAND_SQMI`: Land Area (square miles) - Created for statistical purposes only
+* `AWATER_SQMI`: Water Area (square miles) - Created for statistical purposes only
+* `INTPTLAT`: Latitude (decimal degrees) First character is blank or "-" denoting North or South latitude respectively
+* `INTPTLONG`: Longitude (decimal degrees) First character is blank or "-" denoting East or West longitude respectively
+
+**[ZIP Code Tabulation Areas Glossary](https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html)**
+
 ### 1.2 Data cleaning
 ### 1.3 Perform an exploratory data analysis
 * Basic Statistics
