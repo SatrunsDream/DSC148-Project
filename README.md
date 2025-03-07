@@ -1,7 +1,6 @@
 # DSC148-Project
 
 ## 0 Introduction
-Home prices serve as a benchmark for market value, reflecting the health of the economy as a result. In this project, we will build a predictive model to estimate the current listing or recently sold price of a home using various property-related features. Accurate home price predictions can help buyers, sellers, investors, and policymakers make informed decisions as market fluctuations and economic trends make it difficult to gauge a home's true value. 
 
 ## 1 Dataset
 ### 1.1 Identify a dataset
