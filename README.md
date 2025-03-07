@@ -19,8 +19,8 @@ The dataset we will be using is
 * `zip_code`: (postal code of the area)
 * `house_size`: (house area/size/living space in square feet)
 * `prev_sold_date`: (Previously sold date)
-* brokered by and street addresses were categorically encoded due to data privacy policy
-* acre_lot means the total land area, and house_size denotes the living space/building area
+* `brokered by` and `street` addresses were categorically encoded due to data privacy policy
+* `acre_lot` means the total land area, and `house_size` denotes the living space/building area
 
 **[ZIP Code Tabulation Areas](https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html) (33,791 entries): This dataset contains geographic identifier codes, names, area measurements, and representative latitude and longitude coordinates for zip codes based on the 2020 Census tabulation blocks**
 * `GEOID`: Five digit ZIP Code Tabulation Area Census Code
