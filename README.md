@@ -30,8 +30,7 @@ The dataset we will be using is
 * `AWATER_SQMI`: Water Area (square miles) - Created for statistical purposes only
 * `INTPTLAT`: Latitude (decimal degrees) First character is blank or "-" denoting North or South latitude respectively
 * `INTPTLONG`: Longitude (decimal degrees) First character is blank or "-" denoting East or West longitude respectively
-
-**[ZIP Code Tabulation Areas Glossary](https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html)**
+* [ZIP Code Tabulation Areas Glossary](https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html)
 
 ### 1.2 Data cleaning
 ### 1.3 Perform an exploratory data analysis
