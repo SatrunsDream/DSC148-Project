@@ -42,8 +42,8 @@ The dataset we will be using is
 * `County`: County name
 * `Country`: Country name
 * `Coordinates`: lat, long pair
-* `lat`: Latitude (decimal degrees)
-* `long`: Longitude (decimal degrees)
+* `lat`: Latitude (decimal degrees) for center of the zip code
+* `long`: Longitude (decimal degrees) for center of the zip code
 
 ### 1.2 Data cleaning
 
