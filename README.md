@@ -32,7 +32,7 @@ The dataset we will be using is
 * `INTPTLONG`: Longitude (decimal degrees) First character is blank or "-" denoting East or West longitude respectively
 * [ZIP Code Tabulation Areas Glossary](https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html)
 
-**[US Population Density by Zip Code, City, and State](https://www.fourfront.us/data/datasets/us-population-density/) (40959 entries): This dataset contains 2010 census data for every zip code in the United States, including the corresponding City, State, and latitude/longitude coordinates for the center of the zip code**
+**[US Population Density by Zip Code, City, and State](https://www.fourfront.us/data/datasets/us-population-density/) (40,959 entries): This dataset contains 2010 census data for every zip code in the United States, including the corresponding City, State, and latitude/longitude coordinates for the center of the zip code**
 * `Zip`: Zip code
 * `population`: Population of each zip code
 * `density`: Population density of each zip code per sq. mile
