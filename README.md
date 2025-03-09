@@ -33,17 +33,17 @@ The dataset we will be using is
 * [ZIP Code Tabulation Areas Glossary](https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html)
 
 **[US Population Density by Zip Code, City, and State](https://www.fourfront.us/data/datasets/us-population-density/) (40959 entries): This dataset contains 2010 census data for every zip code in the United States, including the corresponding City, State, and latitude/longitude coordinates for the center of the zip code**
-* Zip: Zip code
-* population: Population of each zip code
-* density: Population density of each zip code per sq. mile
-* City: City name
-* St: State name
-* CitySt: City, St pair
-* County: County name
-* Country: Country name
-* Coordinates: lat, long pair
-* lat: Latitude (decimal degrees)
-* long: Longitude (decimal degrees)
+* `Zip`: Zip code
+* `population`: Population of each zip code
+* `density`: Population density of each zip code per sq. mile
+* `City`: City name
+* `St`: State name
+* `CitySt`: City, St pair
+* `County`: County name
+* `Country`: Country name
+* `Coordinates`: lat, long pair
+* `lat`: Latitude (decimal degrees)
+* `long`: Longitude (decimal degrees)
 
 ### 1.2 Data cleaning
 
