@@ -32,7 +32,14 @@ The dataset we will be using is
 * `INTPTLONG`: Longitude (decimal degrees) First character is blank or "-" denoting East or West longitude respectively
 * [ZIP Code Tabulation Areas Glossary](https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html)
 
+
+
+Population	Population of each zip code
+Density	Population density of each zip code
+
 ### 1.2 Data cleaning
+
+
 ### 1.3 Perform an exploratory data analysis
 * Basic Statistics
 * Properties
