@@ -105,3 +105,9 @@ Note -> Originally, we had decided to do a 'basic' predict home prices model, ho
 * What are the major takeaways (i.e., conclusions)?
 
 ## References
+
+Datasets: 
+* https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset/data
+* https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html
+* https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html
+* https://www.fourfront.us/data/datasets/us-population-density/
