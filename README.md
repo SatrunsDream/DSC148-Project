@@ -58,11 +58,35 @@ The datasets we will be using are
 * `CITY`: City location of institution
 * `STABBR`: State abbreviation
 * `ZIP`: ZIP code
-* `OBEREG`: Bureau of Economic Analysis (BEA) Regions. 0 - US Service schools, 1 - New England CT ME MA NH RI VT, 2 - Mid East DE DC MD NJ NY PA, 3 - Great Lakes IL IN MI OH WI, 4 - Plains IA KS MN MO NE ND SD, 5 - Southeast AL AR FL GA KY LA MS NC SC TN VA WV, 6 - Southwest AZ NM OK TX, 7 - Rocky Mountains CO ID MT UT WY, 8 - Far West AK CA HI NV OR WA, 9 - Outlying areas AS FM GU MH MP PR PW VI, -3 - Not available
+* `OBEREG`: Bureau of Economic Analysis (BEA) Regions
+  * 0 - US Service schools
+  * 1 - New England CT ME MA NH RI VT
+  * 2 - Mid East DE DC MD NJ NY PA
+  * 3 - Great Lakes IL IN MI OH WI
+  * 4 - Plains IA KS MN MO NE ND SD
+  * 5 - Southeast AL AR FL GA KY LA MS NC SC TN VA WV
+  * 6 - Southwest AZ NM OK TX
+  * 7 - Rocky Mountains CO ID MT UT WY
+  * 8 - Far West AK CA HI NV OR WA
+  * 9 - Outlying areas AS FM GU MH MP PR PW VI
+  * -3 - Not available
 * `COUNTYNM`: County name
 * `LONGITUD`: Longitude location of institution
 * `LATITUDE`: Latitude location of institution
-* `HLOFFER`: Highest level of offering. 0 - Other, 1 - Postsecondary award, certificate or diploma of less than one academic year, 2 - Postsecondary award, certificate or diploma of at least one but less than two academic years, 3 - Associate's degree, 4 - Postsecondary award, certificate or diploma of at least two but less than four academic years, 5 - Bachelor's degree, 6 - Postbaccalaureate certificate, 7 - Master's degree, 8 - Post-master's certificate, 9 - Doctor's degree, b - None of the above or no answer, -2 - Not applicable, first-professional only, -3 - Not Available
+* `HLOFFER`: Highest level of offering
+  * 0 - Other
+  * 1 - Postsecondary award, certificate or diploma of less than one academic year
+  * 2 - Postsecondary award, certificate or diploma of at least one but less than two academic years
+  * 3 - Associate's degree
+  * 4 - Postsecondary award, certificate or diploma of at least two but less than four academic years
+  * 5 - Bachelor's degree
+  * 6 - Postbaccalaureate certificate
+  * 7 - Master's degree
+  * 8 - Post-master's certificate
+  * 9 - Doctor's degree
+  * b - None of the above or no answer
+  * -2 - Not applicable, first-professional only
+  * -3 - Not Available
 * The dataset contains 73 columns, but only a few relevant ones are described here
 * To see data dictionary go to the [url](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?year=2023&sid=b90abf0b-8b20-4dc7-9338-4b14f9d94e9c&rtid=7) and download the `Dictionary` file for the `HD2023` data file
 
