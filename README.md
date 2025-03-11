@@ -96,6 +96,7 @@ The datasets we will be using are
 * Basic Statistics
 * Properties
 * Interesting findings
+
 ### 1.4 Findings in exploratory data analysis
 * EDA should motivate your model design/choice
 
@@ -127,13 +128,19 @@ The datasets we will be using are
 
 ## 4. Literature
 * Has your dataset/task been studied by others before?
+    * Yes
 * How the dataset was used?
+    * Predict price
 * Are you working on a brand-new task?
+    * Haven't seen creating rating system for a property's value compared to other properties in their respective market
 * How are other people attacking the same/similar tasks?
+    * We are incorporating predicting expected price which is similar to other people's projects but only using it as a tool for our overall task
 * What is state-of-the-art method in this task or related tasks?
+    * ...
 * Are your conclusions similar or different from existing work?
+    * ...
 * What’s the major novelty of your work?
-
+    * ...
 Note -> Originally, we had decided to do a 'basic' predict home prices model, however, this has been done billions of times, so we decided to change our question to make it unique.
 
 ## 5. Result
@@ -155,3 +162,11 @@ Datasets:
 * https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html
 * https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html
 * https://www.fourfront.us/data/datasets/us-population-density/
+
+Citations:
+1. https://researchmaniacs.com/ZipCodes/9/Where-is-Zip-Code-96999.html
+2. https://www.newscentermaine.com/article/news/nation-world/most-expensive-home-in-the-us-on-the-market/507-ab381921-8d2f-4236-86c0-6f785f73dbd9
+3. https://www.housebeautiful.com/lifestyle/g46520154/biggest-houses-across-the-world/
+4. https://www.silive.com/news/2022/01/americas-most-expensive-home-21-bedrooms-49-bathrooms-twice-as-big-as-the-white-house-295m.html
+5. https://www.familyhandyman.com/list/the-biggest-home-in-each-state-that-will-stun-you/?srsltid=AfmBOoqAs9h6YdZAM2KcBt9QwmYL4bxOLHGDzCM9-PKcqTQ0OEFf-oE7
+
