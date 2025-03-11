@@ -162,6 +162,10 @@ Datasets:
 * https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html
 * https://www.census.gov/programs-surveys/geography/technical-documentation/records-layout/gaz-record-layouts.html
 * https://www.fourfront.us/data/datasets/us-population-density/
+* https://ucr.fbi.gov/crime-in-the-u.s/2015/crime-in-the-u.s.-2015/tables/table-8/table_8_offenses_known_to_law_enforcement_by_state_by_city_2015.xls/view
+* https://ucr.fbi.gov/crime-in-the-u.s/2015/crime-in-the-u.s.-2015/tables/table-8/table-8-data-declaration_final
+* https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?year=2023&sid=b90abf0b-8b20-4dc7-9338-4b14f9d94e9c&rtid=7
+* https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?year=2023&sid=b90abf0b-8b20-4dc7-9338-4b14f9d94e9c&rtid=7
 
 Citations:
 1. https://researchmaniacs.com/ZipCodes/9/Where-is-Zip-Code-96999.html
