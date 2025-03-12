@@ -90,6 +90,12 @@ The datasets we will be using are
 * The dataset contains 73 columns, but only a few relevant ones are described here
 * To see data dictionary go to the [url](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?year=2023&sid=b90abf0b-8b20-4dc7-9338-4b14f9d94e9c&rtid=7) and download the `Dictionary` file for the `HD2023` data file
 
+**[Property Taxes by State](https://taxfoundation.org/data/all/state/property-taxes-by-state-county/) (51 entries): This dataset provides state-level property tax information, including effective tax rates for owner-occupied housing in 2022 and 2023, as well as state rankings based on tax rates, offering insights into regional tax burdens**
+* `State`: State name (including Washington DC)
+* `Effective Tax Rate (2023)`: The mean effective property tax rate for owner-occupied housing (total real taxes paid/total home value) in 2023, expressed as a percentage
+* `Effective Tax Rate (2022)`: The mean effective property tax rate for owner-occupied housing (total real taxes paid/total home value) in 2022, expressed as a percentage
+* `Rank`: The ranking of the state based on its effective property tax rate in 2023 (DC’s rank does not affect states’ ranks)
+
 ### 1.2 Data cleaning
 
 ### 1.3 Perform an exploratory data analysis
