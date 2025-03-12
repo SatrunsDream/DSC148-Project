@@ -172,6 +172,7 @@ Datasets:
 * https://ucr.fbi.gov/crime-in-the-u.s/2015/crime-in-the-u.s.-2015/tables/table-8/table-8-data-declaration_final
 * https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?year=2023&sid=b90abf0b-8b20-4dc7-9338-4b14f9d94e9c&rtid=7
 * https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?year=2023&sid=b90abf0b-8b20-4dc7-9338-4b14f9d94e9c&rtid=7
+* https://taxfoundation.org/data/all/state/property-taxes-by-state-county/
 
 Citations:
 1. https://researchmaniacs.com/ZipCodes/9/Where-is-Zip-Code-96999.html
