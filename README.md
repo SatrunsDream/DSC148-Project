@@ -244,8 +244,9 @@ Datasets:
 
 Citations:
 1. https://researchmaniacs.com/ZipCodes/9/Where-is-Zip-Code-96999.html
-2. https://www.newscentermaine.com/article/news/nation-world/most-expensive-home-in-the-us-on-the-market/507-ab381921-8d2f-4236-86c0-6f785f73dbd9
-3. https://www.housebeautiful.com/lifestyle/g46520154/biggest-houses-across-the-world/
-4. https://www.silive.com/news/2022/01/americas-most-expensive-home-21-bedrooms-49-bathrooms-twice-as-big-as-the-white-house-295m.html
-5. https://www.familyhandyman.com/list/the-biggest-home-in-each-state-that-will-stun-you/?srsltid=AfmBOoqAs9h6YdZAM2KcBt9QwmYL4bxOLHGDzCM9-PKcqTQ0OEFf-oE7
+2. https://oag.ca.gov/sites/all/files/agweb/pdfs/cjsc/stats/computational_formulas.pdf
+3. https://www.newscentermaine.com/article/news/nation-world/most-expensive-home-in-the-us-on-the-market/507-ab381921-8d2f-4236-86c0-6f785f73dbd9
+4. https://www.housebeautiful.com/lifestyle/g46520154/biggest-houses-across-the-world/
+5. https://www.silive.com/news/2022/01/americas-most-expensive-home-21-bedrooms-49-bathrooms-twice-as-big-as-the-white-house-295m.html
+6. https://www.familyhandyman.com/list/the-biggest-home-in-each-state-that-will-stun-you/?srsltid=AfmBOoqAs9h6YdZAM2KcBt9QwmYL4bxOLHGDzCM9-PKcqTQ0OEFf-oE7
 
