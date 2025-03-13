@@ -99,44 +99,72 @@ The datasets we will be using are
 ### 1.2 Data cleaning
 * Dropping rows with missing 'zip_code' since it can't be reliably filled in
 * Filling NaN values of `price` steps:
-  1. Fill in missing prices with median zip code prices
-  2. Fill in missing prices with median state prices if the zip code group has all missing values
-  3. Fill in missing prices with global median prices as a final fallback
+   1) Fill in missing prices with median zip code prices
+   2) Fill in missing prices with median state prices if the zip code group has all missing values
+   3) Fill in missing prices with global median prices as a final fallback
 * Filling NaN values of `bed` and `bath` steps:
-1) Fill in missing beds and baths with median zip code beds and baths
-2) Fill in missing beds and baths with median state beds and baths if the zip code group has all missing values
-3) Fill in missing beds and baths with global median beds and baths as a final fallback
+   1) Fill in missing beds and baths with median zip code beds and baths
+   2) Fill in missing beds and baths with median state beds and baths if the zip code group has all missing values
+   3) Fill in missing beds and baths with global median beds and baths as a final fallback
 * Filling NaN values of `acre_lot` steps:
-1) Fill in missing acreage with median zip code acreage
-2) Fill in missing acreage with median state acreage if the zip code group has all missing values
-3) Fill in missing acreage with global median acreage as a final fallback
+   1) Fill in missing acreage with median zip code acreage
+   2) Fill in missing acreage with median state acreage if the zip code group has all missing values
+   3) Fill in missing acreage with global median acreage as a final fallback
 * Filling missing states with `Guam` because the zipcode 96999 is found in Guam1. Filtering `state` to only include US states and Washington DC and remove US territories and else (e.g. New Brunswick is a Canadian province)$^1$
 * Filling NaN values of `city` steps:
-1) Fill in missing cities using zip code
-2) Fill in missing acreage with state if the zip code group has all missing values
-3) Drop rows where city is still missing as a final fallback
+   1) Fill in missing cities using zip code
+   2) Fill in missing acreage with state if the zip code group has all missing values
+   3) Drop rows where city is still missing as a final fallback
 * Filling NaN values of `house_size` steps:
-1) Fill in missing house sizes using zip code
-2) Fill in missing house sizes with city if the zip code group has all missing values + created temporary `city_state` column to avoid city name ambiguity
-3) Fill in missing house sizes with state as a final fallback
+   1) Fill in missing house sizes using zip code
+   2) Fill in missing house sizes with city if the zip code group has all missing values + created temporary `city_state` column to avoid city name ambiguity
+   3) Fill in missing house sizes with state as a final fallback
 * Convert `prev_sold_date` to datetime
 * Given that there are over 700_000 NaN values of `prev_sold_date`, these null values most likely exist represent that the homes have never been sold before, therefore we will create a binary indicator column `first_sale` where a 1 represents if the home has never been sold before (the NaN values) and 0 if it has (the non-NaN values).
-* Given that there were `prev_sold_date` dates that happened after the dataset `usa real estate data` was last updated, which was in 2024, I will make those dates NaN
+* Given that there were `prev_sold_date` dates that happened after the dataset `usa real estate data` was last updated, which was in 2024, those dates will be made NaN
 * Filling NaN values of `prev_sold_date` steps:
-1) Fill in missing previous sold dates using zip code
-2) Fill in missing previous sold dates with city_state if the zip code group has all missing values
-3) Fill in missing previous sold dates with state
-4) Fill in missing previous sold dates with global median as a final fallback
-5) drop `city_state` since it was a temporary column and we have cleaned the missing values of all of the features
+   1) Fill in missing previous sold dates using zip code
+   2) Fill in missing previous sold dates with city_state if the zip code group has all missing values
+   3) Fill in missing previous sold dates with state
+   4) Fill in missing previous sold dates with global median as a final fallback
+   5) drop `city_state` since it was a temporary column and we have cleaned the missing values of all of the features
 * Cleaning up and normalizing the values of the categorical features
 * Changing types of `zip_code`, `bed`, `bath`, and `house_size` to `int`
 * Convert both the categorically encoded features `brokered_by` and `street` to strings and fill the NaN values with 'Not Specified'
 * Changing types of the categorically encoded features and `zip_code` to `str`
 * Drop duplicates
+* Merging the dataframe `zipcode_land` onto `realtor_data` to include `land_area` (in sq. miles), `water_area` (in sq. miles), and latitude & longitude for each `zip_code`.
+* Merging the dataframe `zipcode_pop` onto `realtor_data` to include `population` and	`density` for each `zip_code`.
 * Replacing `city` and `state` values with non-missing `City` and `St` values from `zipcode_pop` for cases where `zipcode_land` data was missing. Missing values in `zipcode_land` occured when there was an incorrect zipcode assignment--Kent, Washington, being incorrectly linked to a Los Angeles-area zipcode—-or a zipcode covered a niche area, such as Hat Island in Washington.
 * Filling in most of the missing `latitude` and `longitude` values with `lat` and `long` from `zipcode_pop`, as both datasets were merged based on zip code.
 * Since I used the `City`, `St`, `lat`, and `long` from `zipcode_pop` to help clean up the dataset more, they are no longer necessary.
-* Getting rid of additional columns from the `crime_data` onto `realtor_data` merge that are unnecessary
+* Merging the dataframe `crime_data` onto `realtor_data` to include crime statistics for each `city_state` (a combinationation of city and state as a temp identifier).
+* Getting rid of additional columns from the merge that are unnecessary
+* Filling some NaN values of `land_area`, `water_area`, `latitude`, and `longitude` with the median for each (`city`, `state`) group
+* Dropping the remaining rows where `latitude` and `longitude` are missing, as these correspond to non-existent areas, such as out of county, louisiana or out of county, california, or remote locations such as Naukati Bay, Alaska, or Kasaan, Alaska.
+* Haversine function to calculate the great-circle distance between two coordinates in miles where 3958.8 is the Earth's radius in miles
+* Merging `uni_data` onto `realtor_data` by grouping by zip code and computing the nearest university once for each unique zip code using the haversine distance formula and creating the features `closest_uni_name`, `closest_uni_lat`, `closest_uni_lon`, `closest_uni_zip`, `closest_uni_obereg`, `closest_uni_hloffer`, and `distance_to_uni` (sq miles).
+* Creating a new feature `median_zip_price`, which represents the median price of homes in the zip code (helps compare listing prices to the market norm).
+* Creating a new feature `inventory_count`, which represents the number of homes available for sale (low inventory → higher prices) by zip code.
+* Merging the nearest zip code (with available crime data) onto `realtor_data` by calculating the nearest zip code for each unique zip code using the haversine distance formula and creating the features `nearest_zip` and `nearest_zip_distance` (sq miles).
+* Filling NaN values of `violent_crime` and `property_crime` steps:
+   1) Fill in missing violent crime and property crime numbers using nearest zip code's violent_crime and property_crime numbers
+   2) Fill in missing violent crime and property crime numbers using state violent_crime and property_crime numbers as a final fallback
+* Filling NaN values of `land_area` and `water_area` steps:
+   1) Fill in missing land_area and water_area sq miles using nearest zip code's land_area and water_area sq miles
+   2) Fill in missing land_area and water_area sq miles using state land_area and water_area sq miles as a final fallback
+* Filling NaN values of `population` and `density` steps:
+   1) Fill in missing land_area and water_area sq miles using nearest zip code's land_area and water_area sq miles
+   2) Fill in missing land_area and water_area sq miles using state land_area and water_area sq miles as a final fallback
+* Filling NaN values of `median_zip_price` and `inventory_count` steps:
+   1) Fill in missing median_zip_price and inventory_count using nearest zip code's median_zip_price and inventory_count numbers
+   2) Fill in missing median_zip_price and inventory_count using state median_zip_price and inventory_count numbers as a final fallback
+
+Summary statistics + Outlier Removal
+* From the summary statistics and the outlier plots we can see that the max `price` is $1\times 10^9$, which is \$1 billion, however this is not realistic because, as of February 2024, the most expensive home in the United States is Gordon Pointe in Naples, Florida, which is listed for \$295 million dollars$^2$. Therefore we can filter `realtor_data` to not include the outliers in `price` that are greater than \$295 million dollars.$^2$ We can also see that the min is 0.0, meaning the home was free, however, this is not realistic and to avoid data entry errors, the lowest threshold will be set at \$10,000.
+* From the summary statistics we can see that the max `bed` is $473$, however this is not realistic because the Biltmore Estate in Asheville, North Carolina has the most amount of bedrooms in the United States at 35 $^3$. Therefore we can filter `realtor_data` to not include the outliers in `bed` that are greater than $35$.$^3$
+* From the summary statistics we can see that the max `bath` is $752$, however this is not realistic because The One in Bel Air, California has the most amount of bathrooms in the United States at 49$^4$. Therefore we can filter `realtor_data` to not include the outliers in `bath` that are greater than $49$.$^4$
+* From the summary statistics we can see that the max `house_size` is $1.0404004\times 10^9$, which is around 1.04 billion, however this is not realistic because the Biltmore Estate in Asheville, North Carolina, the largest home in the United States by square footage, is at 175,000 sq ft$^5$. Therefore we can filter `realtor_data` to not include the outliers in `house_size` that are greater than $175,000$.$^5$
 
 ### 1.3 Perform an exploratory data analysis
 * Basic Statistics
