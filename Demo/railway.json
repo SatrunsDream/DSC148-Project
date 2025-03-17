@@ -1,0 +1,14 @@
+{
+    "$schema": "https://railway.app/railway.schema.json",
+    "build": {
+        "builder": "NIXPACKS",
+        "buildCommand": "apt-get update && apt-get install -y python3 python3-venv python3-pip python3-distutils nodejs npm && python3 -m pip install --upgrade pip && python3 -m pip install -r backend/requirements.txt && cd frontend && npm install && npm run build"
+    },
+    "deploy": {
+        "startCommand": "python3 -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT",
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+    }
+}
+  
+  
