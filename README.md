@@ -99,137 +99,116 @@ The datasets we will be using are
 * `Rank`: The ranking of the state based on its effective property tax rate in 2023 (DC’s rank does not affect states’ ranks)
 
 ### 1.2 Data cleaning
-* Dropping rows with missing 'zip_code' since it can't be reliably filled in
-* Filling NaN values of `price` steps:
-   1) Fill in missing prices with median zip code prices
-   2) Fill in missing prices with median state prices if the zip code group has all missing values
-   3) Fill in missing prices with global median prices as a final fallback
-* Filling NaN values of `bed` and `bath` steps:
-   1) Fill in missing beds and baths with median zip code beds and baths
-   2) Fill in missing beds and baths with median state beds and baths if the zip code group has all missing values
-   3) Fill in missing beds and baths with global median beds and baths as a final fallback
-* Filling NaN values of `acre_lot` steps:
-   1) Fill in missing acreage with median zip code acreage
-   2) Fill in missing acreage with median state acreage if the zip code group has all missing values
-   3) Fill in missing acreage with global median acreage as a final fallback
-* Filling missing states with `Guam` because the zipcode 96999 is found in Guam1. Filtering `state` to only include US states and Washington DC and remove US territories and else (e.g. New Brunswick is a Canadian province)$^1$
-* Filling NaN values of `city` steps:
-   1) Fill in missing cities using zip code
-   2) Fill in missing acreage with state if the zip code group has all missing values
-   3) Drop rows where city is still missing as a final fallback
-* Filling NaN values of `house_size` steps:
-   1) Fill in missing house sizes using zip code
-   2) Fill in missing house sizes with city if the zip code group has all missing values + created temporary `city_state` column to avoid city name ambiguity
-   3) Fill in missing house sizes with state as a final fallback
-* Convert `prev_sold_date` to datetime
-* Given that there are over 700_000 NaN values of `prev_sold_date`, these null values most likely exist represent that the homes have never been sold before, therefore we will create a binary indicator column `first_sale` where a 1 represents if the home has never been sold before (the NaN values) and 0 if it has (the non-NaN values).
-* Given that there were `prev_sold_date` dates that happened after the dataset `usa real estate data` was last updated, which was in 2024, those dates will be made NaN
-* Filling NaN values of `prev_sold_date` steps:
-   1) Fill in missing previous sold dates using zip code
-   2) Fill in missing previous sold dates with city_state if the zip code group has all missing values
-   3) Fill in missing previous sold dates with state
-   4) Fill in missing previous sold dates with global median as a final fallback
-   5) drop `city_state` since it was a temporary column and we have cleaned the missing values of all of the features
-* Cleaning up and normalizing the values of the categorical features
-* Changing types of `zip_code`, `bed`, `bath`, and `house_size` to `int`
-* Convert both the categorically encoded features `brokered_by` and `street` to strings and fill the NaN values with 'Not Specified'
-* Changing types of the categorically encoded features and `zip_code` to `str`
-* Drop duplicates
-* Merging the dataframe `zipcode_land` onto `realtor_data` to include `land_area` (in sq. miles), `water_area` (in sq. miles), and latitude & longitude for each `zip_code`.
-* Merging the dataframe `zipcode_pop` onto `realtor_data` to include `population` and	`density` for each `zip_code`.
-* Replacing `city` and `state` values with non-missing `City` and `St` values from `zipcode_pop` for cases where `zipcode_land` data was missing. Missing values in `zipcode_land` occured when there was an incorrect zipcode assignment--Kent, Washington, being incorrectly linked to a Los Angeles-area zipcode—-or a zipcode covered a niche area, such as Hat Island in Washington.
-* Filling in most of the missing `latitude` and `longitude` values with `lat` and `long` from `zipcode_pop`, as both datasets were merged based on zip code.
-* Since I used the `City`, `St`, `lat`, and `long` from `zipcode_pop` to help clean up the dataset more, they are no longer necessary.
-* Merging the dataframe `crime_data` onto `realtor_data` to include crime statistics for each `city_state` (a combinationation of city and state as a temp identifier).
-* Getting rid of additional columns from the merge that are unnecessary
-* Filling some NaN values of `land_area`, `water_area`, `latitude`, and `longitude` with the median for each (`city`, `state`) group
-* Dropping the remaining rows where `latitude` and `longitude` are missing, as these correspond to non-existent areas, such as out of county, louisiana or out of county, california, or remote locations such as Naukati Bay, Alaska, or Kasaan, Alaska.
-* Haversine function to calculate the great-circle distance between two coordinates in miles where 3958.8 is the Earth's radius in miles
-* Merging `uni_data` onto `realtor_data` by grouping by zip code and computing the nearest university once for each unique zip code using the haversine distance formula and creating the features `closest_uni_name`, `closest_uni_lat`, `closest_uni_lon`, `closest_uni_zip`, `closest_uni_obereg`, `closest_uni_hloffer`, and `distance_to_uni` (sq miles).
-* Creating a new feature `median_zip_price`, which represents the median price of homes in the zip code (helps compare listing prices to the market norm).
-* Creating a new feature `inventory_count`, which represents the number of homes available for sale (low inventory → higher prices) by zip code.
-* Merging the nearest zip code (with available crime data) onto `realtor_data` by calculating the nearest zip code for each unique zip code using the haversine distance formula and creating the features `nearest_zip` and `nearest_zip_distance` (sq miles).
-* Filling NaN values of `violent_crime` and `property_crime` steps:
-   1) Fill in missing violent crime and property crime numbers using nearest zip code's violent_crime and property_crime numbers
-   2) Fill in missing violent crime and property crime numbers using state violent_crime and property_crime numbers as a final fallback
-* Filling NaN values of `land_area` and `water_area` steps:
-   1) Fill in missing land_area and water_area sq miles using nearest zip code's land_area and water_area sq miles
-   2) Fill in missing land_area and water_area sq miles using state land_area and water_area sq miles as a final fallback
-* Filling NaN values of `population` and `density` steps:
-   1) Fill in missing land_area and water_area sq miles using nearest zip code's land_area and water_area sq miles
-   2) Fill in missing land_area and water_area sq miles using state land_area and water_area sq miles as a final fallback
-* Filling NaN values of `median_zip_price` and `inventory_count` steps:
-   1) Fill in missing median_zip_price and inventory_count using nearest zip code's median_zip_price and inventory_count numbers
-   2) Fill in missing median_zip_price and inventory_count using state median_zip_price and inventory_count numbers as a final fallback
+Row drop: We first began cleaning by dropping rows with missing 'zip$\_$code' because we felt that it couldn't be reliably imputed and where the 'state' wasn't a US state or DC, e.g., Guam or Puerto Rico. We also made sure every feature was its correct type. We then began the imputing side of things after a good chunk of the original dataset had missing values. We filled in missing values using hierarchical imputation by first using the median zip code values, then median state values, and median global values as a final fallback. Specifically to handle the missing values of columns 'city' and 'house$\_$size', we imputed first using zip code, however for city we then filled in any remaining missing values with state mode values, and dropping the remaining rows, and for 'house$\_$size', we filled in any missing values with median grouped city, state values, and then filled in median state values as a final fallback. We created a binary feature 'first$\_$sale', which was created for homes with missing 'prev$\_$sold$\_$date' values, marking homes that had never been sold before. Temporal data in 'prev$\_$sold$\_$date' was adjusted to account for future dates beyond 2024. Categorical features, such as 'brokered$\_$by' and 'street', were cleaned by filling missing values with 'Not Specified'. Any duplicates were then dropped. After cleaning up the original USA Real Estate dataset, we then moved onto merging the other datasets onto the original dataset. We merged the dataframe 'zipcode$\_$land' (ZIP Code Tabulation Areas Dataset) onto `realtor$\_$data` to include `land area` (in sq. miles), `water area` (in sq. miles), and latitude and longitude for each zip code, merged the dataframe 'zipcode$\_$pop' (US Population Density by Zip Code, City, and State Dataset) onto 'realtor$\_$data' to include 'population' and	'density' for each zip code, and merged the 'crime$\_$data' dataframe (Offenses Known to Law Enforcement Dataset) onto 'realtor$\_$data' to include crime statistics for each `city$\_$state` (a combinationation of city and state as a temp identifier), and merged the dataframe 'zipcode$\_$pop' onto 'realtor$\_$data' to include 'population' and	'density' for each zip code. We then got rid of any additional columns from the merges that were unnecessary and filtered 'population' to only keep rows properties where the city has a population above 0. We then had to impute missing values again due to the merges, so we did this with the median for each (`city`, `state`) group for the `land$\_$area`, `water$\_$area`, `latitude`, and `longitude` features, and dropped the remaining rows where `latitude` and `longitude` were missing, as these corresponded to non-existent areas, such as out of county, louisiana or out of county, california, or remote locations such as Naukati Bay, Alaska, or Kasaan, Alaska. We then merged the `uni$\_$data` dataset (Institutional Characteristics Dataset) onto `realtor$\_$data` by grouping by zip code and computing the nearest university once for each unique zip code using the haversine distance formula: 
 
-Summary statistics + Outlier Removal
-* From the summary statistics and the outlier plots we can see that the max `price` is $1\times 10^9$, which is \$1 billion, however this is not realistic because, as of February 2024, the most expensive home in the United States is Gordon Pointe in Naples, Florida, which is listed for \$295 million dollars$^2$. Therefore we can filter `realtor_data` to not include the outliers in `price` that are greater than \$295 million dollars.$^2$ We can also see that the min is 0.0, meaning the home was free, however, this is not realistic and to avoid data entry errors, the lowest threshold will be set at \$10,000.
-* From the summary statistics we can see that the max `bed` is $473$, however this is not realistic because the Biltmore Estate in Asheville, North Carolina has the most amount of bedrooms in the United States at 35 $^3$. Therefore we can filter `realtor_data` to not include the outliers in `bed` that are greater than $35$.$^3$
-* From the summary statistics we can see that the max `bath` is $752$, however this is not realistic because The One in Bel Air, California has the most amount of bathrooms in the United States at 49$^4$. Therefore we can filter `realtor_data` to not include the outliers in `bath` that are greater than $49$.$^4$
-* From the summary statistics we can see that the max `house_size` is $1.0404004\times 10^9$, which is around 1.04 billion, however this is not realistic because the Biltmore Estate in Asheville, North Carolina, the largest home in the United States by square footage, is at 175,000 sq ft$^5$. Therefore we can filter `realtor_data` to not include the outliers in `house_size` that are greater than $175,000$.$^5$
+$$d = 2r\arcsin \biggl( \sqrt{\sin^2(\frac{\phi_2-\phi_1}{2}) + \cos(\phi_1)\cos(\phi_2)\sin^2(\frac{\lambda_2 - \lambda_1}{2})} \biggr)$$
 
-### 1.3 Perform an exploratory data analysis
-* Basic Statistics
-* Properties
-* Interesting findings
+and creating new features of characteristics of the nearest university to that zip code. We also created two more new features 'median$\_$zip$\_$price', which represented the median price of homes in the zip code (helped compare listing prices to the market norm), and 'inventory$\_$count', which represented the number of homes available for sale (low inventory $\rightarrow$ higher prices) by zip code. To deal with the remaining missing values we decided to calculate the nearest zip code for each unique zip code using the haversine distance formula again and creating the features 'nearest$\_$zip' and `nearest$\_$zip$\_$distance` (sq miles). We then also created new features 'total$\_$crime' that sums up total `violent$\_$crime` numbers and `property$\_$crime` numbers for a given zip code to calculate `crime$\_$rate` which is based on the formula: 
+
+$$\frac{\text{Number of total crimes reported}}{\text{population}}\times 1,000$$
+
+meaning crime rate per 1,000 inhabitants. Our last step was merging the dataframe `property$\_$taxes` (Property Taxes by State Dataset) to include property taxes for each state. We also created a new feature 'house$\_$category', which represents the type of home a property is e.g., tiny home, investment property, family home, ranch home, luxury home, luxury estate, and other. This was done through geodemographic segmentation, which selected relevant features, enabling nuanced, region-specific property classification. The derivation came from  zip code-level aggregations to classify homes based on local real estate characteristics, e.g., price, house size, crime rates, and property taxes, acreage, etc. Properties labeled Luxury Estates typically exceeded local norms in price, size, and acreage. Properties were labeled Luxury Homes if they met the high-price and large-size criteria, but not necessarily acreage. Properties labeled Ranch Homes depended on having substantial land size relative to local norms. Other categories included Family Homes, which were defined by mid-range prices, adequate bedrooms, and bathrooms; Tiny Homes were identified by having small size and being affordable; and Investment Properties were characterized by high crime, elevated property taxes, or unusually small sizes.
+
+### 1.3 Basic Statistics
+After looking at the summary statistics of the numeric features, there were some extreme outliers that had to be dealt with. We saw that max `price` is $1\times 10^9$, which is \$1 billion, however, this is not realistic because, as of February 2024, the most expensive home in the United States is Gordon Pointe in Naples, Florida, which is listed for \$295 million dollars$^2$ [Most expensive home in the US is on the market](https://www.newscentermaine.com/article/news/nation-world/most-expensive-home-in-the-us-on-the-market/507-ab381921-8d2f-4236-86c0-6f785f73dbd9). Therefore we filtered `realtor$\_$data` to not include the outliers in 'price' that are greater than \$295 million dollars.$^2$ We can also see that the min is 0.0, meaning the home was free, however, this is not realistic and to avoid data entry errors, the lowest threshold was set at \$10,000. We did this same process for many other numeric features that had extreme outliers, e.g., 'bed', 'bath', and 'house$\_$size'. For the remaining columns that had relatively realistic outliers, we winsorized them to limit any extreme values by capping them at certain thresholds (we did at a 0.01\% threshold level). After attempting to handle the extreme outliers, we ended up logarizing all of the numeric features that had a skew score above 1 and that weren't 'bed', 'bath', 'property$\_$tax', 'crime$\_$rate', 'nearest$\_$zip$\_$distance', and 'total$\_$crime'.
 
 ### 1.4 Findings in exploratory data analysis
 * EDA should motivate your model design/choice
 
 ## 2. Predictive Task
 ### 2.1 Predictive task
-* Identify a predictive task based on your dataset
+
+Our objective is to \textbf{predict house prices using a comprehensive array of features}, including factors such as zip code, house size, and the number of bathrooms, among others. To achieve this, we aim to develop a regression model trained on an extensive dataset comprising millions of observations from across the United States. In constructing our final predictive model, we will evaluate its performance against six baseline models, iteratively improving upon them to create a more accurate and robust regression model.
+
 ### 2.2 Evaluation
-* 2.2 How will you evaluate different models in this task?
-### 2.3 Generalization
+The primary metric used to compare our baseline models and the final model is the \textbf{Root Mean Squared Error (RMSE)}. RMSE is a commonly used evaluation metric for regression problems, providing a clear indication of model performance. It calculates the square root of the average squared differences between predicted and actual values, making it highly sensitive to large errors. This sensitivity is particularly beneficial when we want to penalize significant prediction errors more heavily.
+
+### 2.3 Preprocessing Features
+For our baseline models, we decided to start with the seven numerical features most correlated with price: \textbf{median$\_$zip$\_$price, house$\_$size, acre$\_$lot, bath, latitude, longitude, and crime$\_$rate}. We used these exact features for all baseline models to standardize the comparison and make it easier to observe future improvements in terms of adding or subtracting features in the creation of our final model. We also split our dataset into training and test sets in order to properly evaluate our baseline models on unseen data.
+
 ### 2.4 Baseline
-* What are the baseline models you want to compare with?
-* Why do you think they are appropriate?
-* Why do you think your model can outperform them? Or say, what are their drawbacks?
-### 2.5 Baseline result
+The first baseline model is a basic \textbf{Linear Regression}. The main purpose of this model is to analyze and quantify the linear effect of each of the seven features most correlated with price. While a simple linear regression model like this one is not going to be the best performing model, it is an important setting stone for more advanced models with more features. Additionally, it is the model least likely to overfit to the training set.
+
+OLS linear regression can help us determine the importance of our features through their weights, but sometimes these weights can be detrimental when it comes to predicting unseen data and lead to higher variance. To prevent overfitting, we can introduce penalties in the regression and reduce the importance of the weights by shrinking them towards 0. Two techniques to achieve this are \textbf{Ridge and Lasso Regression}. Therefore, we also created two more regression models as a baseline point of reference. 
+
+One of the key disadvantages of linear regression is its failure to capture nonlinear relationships, thus producing biased estimates. Because of this, we created a \textbf{Random Forest Regression} model. A random forest model can effectively capture valuable trends and relationships through the use of ensemble learning methods, which train several models through a series of decision trees on random samples of the training set and return an averaged result in which the trees “vote” for the best model. One disadvantage is that it can lead to overfitting, but we limited max$\_$depth to counteract it. Random forest regression can provide additional input on what features accurately predict price non-linearly.
+
+For tabular data, \textbf{XGB Regression} and \textbf{LightGBM} are known to be some of the best-performing models. Like with random forest regression, both of these algorithms use ensemble learning methods, with the addition of gradient boosting frameworks that iteratively improve predictions made by individual decision trees (or “weak learners”), with the additional techniques like regularization. In a way, both of these models combine previous simpler models into a faster and more accurate single model. XGB Regression tends to perform better overall, but lightGBM is more memory efficient and tends to be faster for large datasets like this one.
+
+### 2.5 Baseline results
+
+The ordinary linear regression model exhibited the poorest performance, with an RMSE of 0.71. Both the ridge and lasso regression models also recorded an RMSE of 0.71, indicating that any potential improvements over the ordinary linear regression model were minimal. The random forest regression model performed slightly better, achieving an RMSE of 0.64. As anticipated, the most proficient models were XGB Regression, which delivered the lowest RMSE of 0.57, and LightGBM, with an RMSE of 0.62, underscoring their superior predictive accuracy compared to the other models tested.
 
 ## 3. Model
 ### 3.1 Initial settings
-* What is the model that you propose to attack this task?
-* It’s fine to use models that were described in class here
-* Explain and justify your choice/proposal What are the features you designed for your model?
-* Any unsuccessful tries?
-### 3.2 Basic hyperparameter tuning
-### 3.3 Feature engineering
+The final model selected for the predictive task is \textbf{Light Gradient Boosting Machine (LightGBM)}. Since our final dataset has over two million entries, LightGBM was chosen due to its superior balance between predictive accuracy and computational efficiency, making it well-suited for handling such large dataset with numerous features. Another reason we chose LightGBM is because of its ability to handle categorical variables effectively and mitigate overfitting through built-in regularization techniques, making it a robust choice for real estate price prediction.
+
+### 3.2 Feature engineering
+Instead of just using the seven most correlated numerical features like our baseline models, we decided to use all the available features as well engineered ones. Thus, we need to preprocess our features before training the model.
+
+The prev$\_$sold$\_$date column, which is a datetime feature, is decomposed into three separate numerical features:
+\begin{itemize}
+    \item prev$\_$sold$\_$year (year of the previous sale)
+    \item prev$\_$sold$\_$month (month of the previous sale)
+    \item prev$\_$sold$\_$day (day of the previous sale)
+\end{itemize}
+
+The original prev$\_$sold$\_$date column is then removed, as it has been replaced by more useful numerical representations.
+
+In order to make categorial features useful for the model, we used LabelEncoder from sklearn.preprocessing to transform categorical values into numerical values. 
+
+For example, if a column contains ['Apartment', 'House', 'Condo'], LabelEncoder will convert it to [0, 1, 2]
+
 ### 3.4 Model optimzation
-* How will you optimize your model?
-* It’s fine here to call any 3rd party libs
-* Did you encounter any troubles? Scalability? Overfitting?
-### 3.5 Final optimization result
+In order to make sure that our final model performs better than all the baseline models while avoiding overfitting, we optimized it by hyperparameter tuning and splitting the data into a test and training set.
+
+Accounting for efficiency, given that we have a large dataset, we deicded to used RandomSearchCV from sklearn.model$\_$selection over GridSearchCV in order to find the best combination of hyperparameters for our model.
+
+The parameters that we used for the model are:
+\begin{itemize}
+    \item \textbf{objective}: regression  
+    \item \textbf{metric}: rmse  
+    \item \textbf{boosting\_type}: gbdt  
+    \item \textbf{num\_leaves}: 100  
+    \item \textbf{max\_depth}: 20  
+    \item \textbf{learning\_rate}: 0.1  
+    \item \textbf{lambda\_l1}: 1.0  
+    \item \textbf{lambda\_l2}: 1.0  
+    \item \textbf{feature\_fraction}: 1  
+    \item \textbf{bagging\_fraction}: 0.8  
+\end{itemize}
+
+Since we are predicting home prices (a continuous variable), we need a regression model and we are evaluating the model using RMSE as discussed above.
+
+We went with GBDT (Gradient Boosted Decision Trees) as the boosting type because it works well for structured/tabular data, learning from previous mistakes by iteratively reducing errors. Additionally, GBDT generally offers the best performance for structured regression tasks.
+
+To controls the complexity of the model by determining how many decision leaves a single tree can have, we tuned num$\_$leaves to make sure that we don't risk overfitting the model by capturing too many patterns. Additionally, we also tuned max$\_$depth to limit how deep each tree can grow, preventing excessive complexity.
+
+In order to make sure that our model can generalize data well, we tuned learning$\_$rate to control how much the model adjusts weights in each iteration.
+
+Furthermore, to encourage sparsity in feature importance, control large weights, reducing variance and improving generalization, we tuned L1 Regularization and L2 Regularization.
+
+Lastly, we also tuned feature$\_$fraction and bagging$\_$fraction to prevent overfitting by ensuring the model doesn’t become too dependent on a specific subset of training data and making sure that the model use all available features as feature selection was already optimized during preprocessing.
+
+### 3.5 House Valuations
+
+We took the difference between the expected price from our optimized LightGBM model and the listed price, and based our valuations on this difference. If the difference was within one standard deviation of the overall price difference, we classified the property as \textbf{properly valued}. If the difference was less than negative one standard deviation, we classified the property as \textbf{undervalued}. Conversely, if the difference exceeded one standard deviation, we classified the property as \textbf{overvalued}. Based on our valuations, nearly 79\% of homes were classified as "Properly Valued." However, approximately 10.5\% were deemed "Undervalued," potentially indicating 'good' investment opportunities, and approximately 10.1\% were deemed "Overvalued," potentially indiciating 'bad' investment opportunities. This distribution suggests that while most homes are priced fairly, a significant portion still deviates from their expected value, emphasizing the importance of accurate valuation in real estate decision-making.
 
 ## 4. Literature
-* Has your dataset/task been studied by others before?
-    * Yes
-* How the dataset was used?
-    * Predict price
-* Are you working on a brand-new task?
-    * Haven't seen creating rating system for a property's value compared to other properties in their respective market
-* How are other people attacking the same/similar tasks?
-    * We are incorporating predicting expected price which is similar to other people's projects but only using it as a tool for our overall task
-* What is state-of-the-art method in this task or related tasks?
-    * ...
-* Are your conclusions similar or different from existing work?
-    * ...
-* What’s the major novelty of your work?
-    * ...
-Note -> Originally, we had decided to do a 'basic' predict home prices model, however, this has been done billions of times, so we decided to change our question to make it unique.
+\textbf{Implementing GIS in Real Estate Price Prediction and Mass Valuation: The Case Study of Nicosia District. By Charambolos Yiorkas and Thomas Dimopoulos}\\
+\href{https://www.researchgate.net/publication/319569550_Implementing_GIS_in_real_estate_price_prediction_and_mass_valuation_the_case_study_of_Nicosia_District}{https://www.researchgate.net/publication}\\
+Yiorkas and Dimopoulos wanted to produce better real estate predictions for a small dataset of 1341 properties in Cyprus. The main purpose of this report is to prove that geospatial features such such as proximity to schools or universities have a significant effect on property prices. Price predictions for properties in Cyprus were usually done by only looking at the physical properties of the house, such as its size, age, and number of bedrooms and bathrooms. The two main models that were performed in this research are Ordinary Least Squares Regression (as a baseline model) and Geographically Weighted Regression (as the final model). While we didn’t implement geospatial analytical techniques in our models unlike in this report, this served as inspiration for us to include features that were outside of our original dataset and related with the geography and environment of the property. The main evaluation metric used was R-squared instead of RMSE, and the Geographically Weighted Regression model proved to be far more accurate, with an R-squared value of 0.79 versus 0.55 for the OLS model, thus proving that in some instances, geographical features can be a very useful addition to a property price prediction model.
+
+\textbf{Advanced Machine Learning Algorithms for House Price Prediction: Case Study in Kuala Lumpur. By Shuzlina Abdul Rahman, Sofanita Mutalib, Ismail Ibrahim, Nor Hamizah Zulkifley}\\
+\href{https://thesai.org/Downloads/Volume12No12/Paper_91-Advanced_Machine_Learning_Algorithms.pdf}{https://www.researchgate.net/publication}\\
+This project is the most similar to ours we could find in terms of data preprocessing, feature selection, and the models that were implemented. It is based on a dataset of 53883 entries representing individual properties in Kuala Lumpur, and the four models that were implemented were Multiple Linear Regression, Ridge Regression, LightGBM, and XGBoost, which turned out to be the best performing model. The main difference between our project and this one is the missing value imputations. Rahman, Mutalib, Ibrahim, and Zulkifley opted to simply drop all rows with any missing values, which significantly reduced the size of the dataset to 31899 entries, while we followed a multi-step implementation process that would attempt to impute missing values based on local group medians (such as zip code), or global medians if not possible. Price was also log transformed due to extreme skewness, showcasing the many similarities between our dataset and this one, even while taking into account the substantial geographical differences (Kuala Lumpur, a city, vs the United States, a large country). Overall, this project shares many commonalities with our regression component of the project, but it doesn’t go into the value analysis (whether the house is undervalued, overvalued, or neither).
 
 ## 5. Result
 ### 5.1 Comparison
-* Does your proposed method outperform the baselines?
-* Why your model can outperform? Or why your model fails?
-* Whether the gap is significant?
-### 5.2 Effectiveness
-* Are all features you designed effective?
-### 5.3 Hyperparameters
-* How shall one set the hyper-parameters of your model?
-### 5.4 Major takeaways
-* What are the major takeaways (i.e., conclusions)?
+Our analysis compared several predictive models for house price estimation. The baseline linear regression model (OLS) produced an RMSE of 0.71, indicating moderate performance but limited capability in capturing non-linear relationships. Regularized models like Ridge and Lasso offered improvements in feature selection and model simplicity, though their RMSE values remained close to 0.71, suggesting that simply penalizing coefficients did not enhance prediction accuracy. In contrast, ensemble methods performed significantly better a Random Forest model achieved an RMSE of approximately 0.64 by better handling feature interactions and non-linearities. Most notably, gradient boosting techniques —XGBoost attained the lowest RMSE at around 0.57, while LightGBM delivered an RMSE near 0.62, coupled with improved computational efficiency on large datasets. Taking that into account we took LightGBM as the final model and tunned it with a final RMSE of approximately 0.4.
+
+### 5.2 Major takeaways
+Incorporating geographic and environmental data improved prediction accuracy. Our baseline linear regression models (OLS, Ridge, Lasso) struggled to capture the complexities of real estate pricing, compared to the ensemble models (Random Forest and gradient boosting methods) that significantly improved predictive accuracy. The LightGBM model was best-performing model, achieving an RMSE of 0.4 after hyperparameter tuning. Its computational efficiency and ability to handle non-linearity made it the optimal choice. The only issue with this being our best model is that LightGBM is black-box, so we don't really know what's going on inside the model, which makes it harder to interpret. Unlike previous studies that dropped missing values, our imputation strategy (using local medians when possible) allowed us to retain more data while maintaining model robustness.
 
 ## References
 
@@ -251,4 +230,6 @@ Citations:
 4. https://www.housebeautiful.com/lifestyle/g46520154/biggest-houses-across-the-world/
 5. https://www.silive.com/news/2022/01/americas-most-expensive-home-21-bedrooms-49-bathrooms-twice-as-big-as-the-white-house-295m.html
 6. https://www.familyhandyman.com/list/the-biggest-home-in-each-state-that-will-stun-you/?srsltid=AfmBOoqAs9h6YdZAM2KcBt9QwmYL4bxOLHGDzCM9-PKcqTQ0OEFf-oE7
+7. https://www.researchgate.net/publication/319569550_Implementing_GIS_in_real_estate_price_prediction_and_mass_valuation_the_case_study_of_Nicosia_District
+8. https://thesai.org/Downloads/Volume12No12/Paper_91-Advanced_Machine_Learning_Algorithms.pdf
 
