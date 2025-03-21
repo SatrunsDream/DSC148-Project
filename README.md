@@ -1,4 +1,4 @@
-# DSC148-Project
+# Home Price Evaluator: Determining Market Value
 
 ## 0 Introduction
 In today’s competitive housing market, overpaying for a home is an all-too-common pitfall—one that can lead to missed opportunities and costly investment mistakes. 
