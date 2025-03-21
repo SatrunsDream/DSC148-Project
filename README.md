@@ -2,7 +2,7 @@
 
 ## Introduction
 In today’s competitive housing market, overpaying for a home is an all-too-common pitfall—one that can lead to missed opportunities and costly investment mistakes. 
-Accurately determining a home's expected price and value could be a crucial aspect in real estate, benefiting both sellers and buyers. This project aims to build a model that predicts home prices and assess their value, helping to identify if a property's price is reasonable. \href{https://house-evaluation.vercel.app/}{https://house-evaluation.vercel.app/} This live demo will also provide detailed information about an entered property and its surrounding area including estimated price, the property's value, and nearest local amenities.
+Accurately determining a home's expected price and value could be a crucial aspect in real estate, benefiting both sellers and buyers. This project aims to build a model that predicts home prices and assess their value, helping to identify if a property's price is reasonable. \href{https://house-evaluation.vercel.app/}{Home Evaluation Demo}. This live demo will also provide detailed information about an entered property and its surrounding area including estimated price, the property's value, and nearest local amenities.
 
 ## 1 Dataset
 ### 1.1 Identify a dataset
